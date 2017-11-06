@@ -38,9 +38,14 @@ def main():
     color = parse_hexcolor(args_res.background)
 
     data = np.array(Image.open(path))
-    reds = data[:, :, 0]
-    greens = data[:, :, 1]
-    blues = data[:, :, 2]
+    if len(data.shape) > 2:
+        reds = data[:, :, 0]
+        greens = data[:, :, 1]
+        blues = data[:, :, 2]
+    else:
+        reds = data[:, :]
+        greens = data[:, :]
+        blues = data[:, :]
     # find pixels near to background
     mask = (reds >= color[0] - radius) & (reds <= color[0] + radius) & (greens >= color[1] - radius) & (
         greens <= color[1] + radius) & (blues >= color[2] - radius) & (blues <= color[2] + radius)
